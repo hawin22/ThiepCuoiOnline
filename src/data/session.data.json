@@ -1,0 +1,27 @@
+{
+  "wishes": [
+    {
+      "id": "wish-1",
+      "sender": "Gia đình Bác Ba",
+      "relationship": "Họ hàng nhà trai",
+      "message": "Chúc hai cháu trăm năm hạnh phúc, tình nghĩa vẹn tròn, sớm sinh quý tử nhé!",
+      "createdAt": "2026-11-01T10:30:00.000Z"
+    },
+    {
+      "id": "wish-2",
+      "sender": "Thảo Vy & Hoàng Long",
+      "relationship": "Bạn thân cô dâu",
+      "message": "Chúc mừng Kiều yêu dấu đã tìm được bến đỗ bình yên. Mãi rạng ngời và hạnh phúc như ngày đầu nhé!",
+      "createdAt": "2026-11-02T14:15:00.000Z"
+    },
+    {
+      "id": "wish-3",
+      "sender": "Hội Anh Em IT Sài Gòn",
+      "relationship": "Đồng nghiệp chú rể",
+      "message": "Chúc mừng Tuấn đã deploy thành công con dự án lớn nhất cuộc đời! Chúc hai bạn bách niên giai lão!",
+      "createdAt": "2026-11-03T09:00:00.000Z"
+    }
+  ],
+  "rsvps": []
+}
+

@@ -1,0 +1,34 @@
+{
+  "settings": {
+    "autoPlayOnOpenGate": true,
+    "defaultVolume": 65,
+    "loop": true,
+    "showTitleOnPlay": true
+  },
+  "playlist": [
+    {
+      "id": "track-1",
+      "title": "Nhạc Đám Cưới Nhẹ Nhàng 2026 - Chọn Lọc Ballad Hay Nhất",
+      "artist": "LK Nhạc Đám Cưới 2026",
+      "url": "https://www.youtube.com/watch?v=50diFJZFyMI&list=RD50diFJZFyMI&start_radio=1"
+    },
+    {
+      "id": "track-2",
+      "title": "Beautiful In White (Acoustic Wedding)",
+      "artist": "Shane Filan",
+      "url": "https://www.youtube.com/watch?v=04854XqcfCY"
+    },
+    {
+      "id": "track-3",
+      "title": "Until I Found You",
+      "artist": "Stephen Sanchez",
+      "url": "https://www.youtube.com/watch?v=GxldQ9eX2wo"
+    },
+    {
+      "id": "track-4",
+      "title": "Beautiful Dream (Giai điệu lãng mạn nhẹ nhàng)",
+      "artist": "Mixkit Wedding Melodies",
+      "url": "https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3"
+    }
+  ]
+}

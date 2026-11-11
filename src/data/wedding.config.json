@@ -1,0 +1,138 @@
+{
+  "general": {
+    "title": "Thiệp Cưới Online – Thúy Phương & Trung Kiên",
+    "monogram": "P & K",
+    "brideShort": "Thúy Phương",
+    "groomShort": "Trung Kiên",
+    "brideFullName": "Nguyễn Thị Thúy Phương",
+    "groomFullName": "Trần Trung Kiên",
+    "weddingDate": "2026-11-28",
+    "weddingDateFormatted": "Thứ Sáu, 27 Tháng 11, 2026",
+    "solarDate": "28.11.2026",
+    "lunarDate": "09.10 Bính Ngọ",
+    "themeColor": "cream-champagne",
+    "musicUrl": "https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3"
+  },
+  "gate": {
+    "initials": "P & K",
+    "sealSubtitle": "Chạm để mở thiệp cưới",
+    "gateTitle": "LỄ THÀNH HÔN",
+    "quote": "Hai trái tim, một nhịp đập, một hành trình trọn vẹn yêu thương."
+  },
+  "hero": {
+    "coverImage": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    "badge": "SAVE THE DATE"
+  },
+  "invitation": {
+    "bride": {
+      "fullName": "Nguyễn Thị Thúy Phương",
+      "shortName": "Thúy Phương",
+      "rank": "Con Gái",
+      "father": "Nguyễn Văn Toàn",
+      "mother": "Trần Thị Hòa",
+      "address": "123 Đường Hoa, Phường 5, Quận Phú Nhuận, TP. Hồ Chí Minh"
+    },
+    "groom": {
+      "fullName": "Trần Trung Kiên",
+      "shortName": "Trung Kiên",
+      "rank": "Con Trai",
+      "father": "Trần Văn Minh",
+      "mother": "Lê Thị Mai",
+      "address": "456 Đường Sen, Phường 2, Quận 1, TP. Hồ Chí Minh"
+    },
+    "defaultGuest": "Quý Khách",
+    "inviteText": "Trân trọng kính mời"
+  },
+  "couple": {
+    "bride": {
+      "fullName": "Nguyễn Thị Thúy Phương",
+      "shortName": "Thúy Phương",
+      "role": "Cô Dâu",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+      "bio": "Cô gái yêu hội họa, thích sự an yên, đã tìm thấy bến đỗ vững chãi và ấm áp nhất đời mình."
+    },
+    "groom": {
+      "fullName": "Trần Trung Kiên",
+      "shortName": "Trung Kiên",
+      "role": "Chú Rể",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+      "bio": "Một chàng trai đam mê công nghệ nhưng trái tim chỉ rung động trước nụ cười dịu dàng của người con gái ấy."
+    }
+  },
+  "events": [
+    {
+      "id": "le-vu-quy",
+      "type": "LỄ VU QUY — NHÀ GÁI",
+      "time": "09:00",
+      "dayOfWeek": "THỨ BẢY",
+      "day": "28",
+      "month": "THÁNG 11",
+      "year": "2026",
+      "lunarDate": "Nhằm ngày 09 tháng 10 năm Bính Ngọ",
+      "location": "Tư gia Nhà Gái",
+      "address": "123 Đường Hoa, Phường 5, Quận Phú Nhuận, TP.HCM",
+      "mapLink": "https://maps.google.com"
+    },
+    {
+      "id": "tiec-cuoi",
+      "type": "TIỆC CƯỚI — NHÀ TRAI",
+      "time": "17:30",
+      "dayOfWeek": "THỨ BẢY",
+      "day": "28",
+      "month": "THÁNG 11",
+      "year": "2026",
+      "lunarDate": "Nhằm ngày 09 tháng 10 năm Bính Ngọ",
+      "location": "The White Palace Convention Center",
+      "address": "194 Hoàng Văn Thụ, Phường 9, Quận Phú Nhuận, TP.HCM",
+      "mapLink": "https://maps.google.com"
+    }
+  ],
+  "countdown": {
+    "targetDate": "2026-11-27T16:00:00",
+    "title": "Cùng Đếm Ngược Đến Khoảnh Khắc Hạnh Phúc",
+    "subtitle": "Chỉ còn một chút thời gian nữa thôi..."
+  },
+  "gallery": [
+    { "url": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85", "title": "Ánh nhìn đắm say" },
+    { "url": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=85", "title": "Nụ cười rạng rỡ" },
+    { "url": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=85", "title": "Lời hứa trọn đời" },
+    { "url": "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=85", "title": "Những nốt nhạc tình ca" },
+    { "url": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=85", "title": "Giây phút ngọt ngào" },
+    { "url": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1200&q=85", "title": "Khoảnh khắc bình yên" }
+  ],
+  "rsvp": {
+    "title": "Xác Nhận Tham Dự",
+    "subtitle": "Để chúng mình chuẩn bị đón tiếp quý khách chu đáo nhất, kính mong quý vị vui lòng xác nhận trước ngày 20/11/2026.",
+    "phoneBride": "0901 234 567",
+    "phoneGroom": "0909 876 543"
+  },
+  "gifts": {
+    "title": "Lời Chúc & Mừng Cưới",
+    "subtitle": "Món quà quý giá nhất là sự hiện diện và tình cảm của quý vị. Nếu quý vị muốn gửi gắm thêm lời chúc từ xa, chúng mình trân trọng đón nhận.",
+    "wishIntro": "Hãy để lại đôi dòng lời chúc — chúng mình sẽ trân trọng mãi mãi.",
+    "giftIntro": "Nếu quý vị muốn gửi thêm tấm lòng, xin phép nhận qua thông tin bên dưới.",
+    "accounts": [
+      {
+        "role": "Cô Dâu",
+        "name": "NGUYEN THI THUY PHUONG",
+        "bankName": "Vietcombank",
+        "bankCode": "VCB",
+        "accountNumber": "1012345678",
+        "qrUrl": "https://img.vietqr.io/image/VCB-1012345678-compact2.png?amount=&addInfo=Mung%20Cuoi%20Thuy%20Phuong"
+      },
+      {
+        "role": "Chú Rể",
+        "name": "TRAN TRUNG KIEN",
+        "bankName": "Techcombank",
+        "bankCode": "TCB",
+        "accountNumber": "19034567890012",
+        "qrUrl": "https://img.vietqr.io/image/TCB-19034567890012-compact2.png?amount=&addInfo=Mung%20Cuoi%20Trung%20Kien"
+      }
+    ]
+  },
+  "thankYou": {
+    "title": "Lời Cảm Ơn Chân Thành",
+    "quote": "Cảm ơn vì đã là một phần đặc biệt trong ngày trọng đại của chúng mình. Sự hiện diện và tình cảm của quý vị là món quà vô giá nhất đối với Thúy Phương & Trung Kiên.",
+    "signatures": "Thúy Phương & Trung Kiên"
+  }
+}
