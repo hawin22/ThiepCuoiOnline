@@ -17,7 +17,7 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=80
+ENV PORT=3001
 
 # Cài đặt công cụ cần thiết cho better-sqlite3 nếu cần build
 RUN apk add --no-cache python3 make g++
@@ -32,6 +32,6 @@ COPY --from=builder /app/dist ./dist
 # Tạo thư mục lưu database
 RUN mkdir -p /app/server/data
 
-EXPOSE 80
+EXPOSE 3001
 
 CMD ["node", "server/index.js"]
