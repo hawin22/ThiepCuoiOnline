@@ -106,15 +106,24 @@
           <!-- Lời nhắn -->
           <div>
             <label class="form-label">Lời nhắn (nếu có)</label>
-            <div class="input-wrap items-start" style="height:auto; min-height:96px; padding-top:10px; padding-bottom:10px;">
-              <!-- Parchment letter icon -->
-              <svg class="input-icon mt-1" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
-              </svg>
-              <textarea v-model="form.note" rows="3"
-                placeholder="Gửi lời nhắn hoặc lời chúc đến đôi uyên ương..."
-                class="form-input resize-none" style="padding-top:0;padding-bottom:0;"></textarea>
-            </div>
+      <div class="input-wrap items-start"
+     style="height:auto; min-height:96px; padding-top:10px; padding-bottom:10px;">
+
+  <svg class="input-icon"
+       style="margin-top:0; flex-shrink:0;"
+       fill="none" stroke="currentColor" stroke-width="1.4"
+       viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round"
+      d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+  </svg>
+
+  <textarea v-model="form.note"
+    rows="3"
+    placeholder="Gửi lời nhắn hoặc lời chúc đến đôi uyên ương..."
+    class="form-input resize-none"
+    style="padding-top:0; padding-bottom:0; margin-top:0;">
+  </textarea>
+</div>
           </div>
         </div>
 
@@ -249,7 +258,24 @@ async function handleSubmit() {
   color: #51463F;
 }
 .form-input::placeholder { color: rgba(81,70,63,0.35); }
+/* Căn icon và textarea */
+.input-wrap:has(textarea) {
+    align-items: flex-start;
+}
 
+/* Icon nằm ngang hàng placeholder */
+.input-wrap:has(textarea) .input-icon {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Căn nội dung textarea */
+.input-wrap:has(textarea) .form-input {
+    height: auto;
+    min-height: 74px;
+    padding: 0;
+    line-height: 1.5;
+}
 .stepper-btn {
   width: 44px;
   height: 44px;

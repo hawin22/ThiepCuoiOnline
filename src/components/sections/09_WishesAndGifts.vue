@@ -266,7 +266,24 @@ function submitWish() {
   color: #51463F;
 }
 .wish-input::placeholder { color: rgba(81,70,63,0.35); font-style: normal; }
+/* Căn icon và textarea lời chúc */
+.wish-wrap:has(textarea) {
+    align-items: flex-start;
+}
 
+/* Icon nằm ngang hàng placeholder */
+.wish-wrap:has(textarea) .wish-icon {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Căn nội dung textarea */
+.wish-wrap:has(textarea) .wish-input {
+    height: auto;
+    min-height: 74px;
+    padding: 0;
+    line-height: 1.5;
+}
 .wish-slide-enter-active { transition: all 0.4s ease; }
 .wish-slide-enter-from   { opacity: 0; transform: translateY(-8px); }
 </style>
