@@ -3,6 +3,9 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+# Build tools cho better-sqlite3 native addon
+RUN apk add --no-cache python3 make g++
+
 # Install deps first (layer cache)
 COPY package*.json ./
 RUN npm ci --prefer-offline
