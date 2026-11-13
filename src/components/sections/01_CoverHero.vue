@@ -5,7 +5,8 @@
       <img
         :src="config.hero.coverImage"
         alt="Ảnh cưới Thúy Phương & Trung Kiên"
-        class="w-full h-full object-cover object-center transition-transform duration-[2000ms]"
+        decoding="async"
+        class="w-full h-full object-cover object-[center_33%] transition-transform duration-[2000ms]"
         :class="isLoaded ? 'scale-100' : 'scale-110'"
         @load="isLoaded = true"
       />

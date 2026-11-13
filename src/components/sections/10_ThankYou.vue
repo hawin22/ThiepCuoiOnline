@@ -2,11 +2,9 @@
   <section class="relative py-24 md:py-32 px-4 sm:px-6 overflow-hidden min-h-[65vh] flex items-center">
     <!-- Full bleed background -->
     <div class="absolute inset-0 z-0">
-      <img
-        src="https://images.unsplash.com/photo-1529518969858-8baa65152fc8?auto=format&fit=crop&w=1600&q=80"
-        alt="Thank you"
-        class="w-full h-full object-cover"
-      />
+      <img :src="config.thankYou?.bgImage || '/images/thankyou/thankyou.jpg'" alt="Lời cảm ơn Thúy Phương & Trung Kiên"
+        loading="lazy" decoding="async"
+        class="w-full h-full object-cover object-[center_25%]" />
       <div class="absolute inset-0 bg-gradient-to-b from-brown/65 via-brown/55 to-brown/85"></div>
     </div>
 
@@ -21,14 +19,15 @@
       <div class="transition-all duration-700 mb-5"
         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
         :style="{ transitionDelay: '200ms' }">
-        <p class="font-sans text-champ-light/75 text-[11px] sm:text-xs tracking-[0.4em] uppercase mb-3 font-medium">— Lời Tri Ân —</p>
-        <h2 class="font-serif text-white text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wide">{{ config.thankYou.title }}</h2>
+        <p class="font-sans text-champ-light/75 text-[11px] sm:text-xs tracking-[0.4em] uppercase mb-3 font-medium">—
+          Lời Tri Ân —</p>
+        <h2 class="font-serif text-white text-2xl sm:text-3xl md:text-4xl font-semibold tracking-wide">{{
+          config.thankYou.title }}</h2>
       </div>
 
       <!-- Gold divider -->
       <div class="flex items-center justify-center gap-3 my-6 sm:my-8 transition-all duration-700"
-        :class="isVisible ? 'opacity-100' : 'opacity-0'"
-        :style="{ transitionDelay: '350ms' }">
+        :class="isVisible ? 'opacity-100' : 'opacity-0'" :style="{ transitionDelay: '350ms' }">
         <div class="h-px w-12 sm:w-16 bg-champ/50"></div>
         <div class="w-1.5 h-1.5 rotate-45 bg-champ"></div>
         <div class="h-px w-12 sm:w-16 bg-champ/50"></div>
@@ -38,7 +37,8 @@
       <div class="transition-all duration-700"
         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
         :style="{ transitionDelay: '450ms' }">
-        <blockquote class="font-serif italic text-white/85 text-sm sm:text-base md:text-lg leading-relaxed mb-8 px-2 sm:px-6">
+        <blockquote
+          class="font-serif italic text-white/85 text-sm sm:text-base md:text-lg leading-relaxed mb-8 px-2 sm:px-6">
           "{{ config.thankYou.quote }}"
         </blockquote>
 
@@ -53,7 +53,8 @@
         <div class="flex justify-center items-center gap-2 mt-8 opacity-70">
           <svg v-for="i in 3" :key="i" class="w-3.5 h-3.5 text-champ-light animate-pulse-slow"
             :style="{ animationDelay: `${i * 0.3}s` }" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
         </div>
       </div>

@@ -29,6 +29,8 @@
                 <img
                   :src="config.couple.bride.avatar"
                   :alt="config.couple.bride.fullName"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-brown/30 to-transparent"></div>
@@ -61,6 +63,8 @@
                 <img
                   :src="config.couple.groom.avatar"
                   :alt="config.couple.groom.fullName"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-brown/30 to-transparent"></div>

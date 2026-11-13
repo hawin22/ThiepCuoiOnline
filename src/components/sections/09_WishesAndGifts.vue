@@ -152,37 +152,38 @@
           {{ config.gifts.giftIntro }}
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <!-- Hộp thông tin mừng cưới (Căn giữa hoàn hảo trên mọi màn hình) -->
+        <div class="flex justify-center w-full">
           <div v-for="account in config.gifts.accounts" :key="account.accountNumber"
-            class="p-5 sm:p-6 text-center transition-all duration-300 hover:shadow-md"
-            style="background:#FFFFFF; border:1px solid rgba(199,168,120,0.3); border-radius:8px; box-shadow:0 4px 16px rgba(81,70,63,0.04);">
-            <p class="font-script text-2xl sm:text-3xl mb-4" style="color:#C7A878;">{{ account.role }}</p>
+            class="w-full max-w-sm sm:max-w-md p-6 sm:p-8 text-center transition-all duration-300 hover:shadow-lg mx-auto"
+            style="background:#FFFFFF; border:1.5px solid rgba(199,168,120,0.35); border-radius:12px; box-shadow:0 8px 30px rgba(81,70,63,0.06);">
+            <p class="font-script text-3xl sm:text-4xl mb-4" style="color:#C7A878;">{{ account.role }}</p>
 
-            <div class="flex justify-center mb-4">
-              <div class="p-2 sm:p-2.5" style="border:1px solid rgba(199,168,120,0.35); border-radius:6px; background:#F8F5EF;">
-                <img :src="account.qrUrl" :alt="`QR ${account.name}`"
-                  class="w-32 h-32 sm:w-36 sm:h-36 object-contain"
+            <div class="flex justify-center mb-5">
+              <div class="p-3 sm:p-3.5 shadow-sm" style="border:1.5px solid rgba(199,168,120,0.35); border-radius:10px; background:#F8F5EF;">
+                <img :src="account.qrUrl?.startsWith('.') ? account.qrUrl.slice(1) : account.qrUrl" :alt="`QR ${account.name}`"
+                  class="w-40 h-40 sm:w-48 sm:h-48 object-contain rounded-sm"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-                <div class="hidden w-32 h-32 sm:w-36 sm:h-36 items-center justify-center text-xs font-sans text-center p-2 leading-relaxed"
+                <div class="hidden w-40 h-40 sm:w-48 sm:h-48 items-center justify-center text-xs font-sans text-center p-3 leading-relaxed"
                   style="color:rgba(81,70,63,0.6);">
                   📱 {{ account.bankName }}<br/>{{ account.accountNumber }}
                 </div>
               </div>
             </div>
 
-            <p class="font-serif font-semibold text-xs sm:text-sm mb-0.5" style="color:#51463F;">{{ account.name }}</p>
-            <p class="font-sans text-[11px] sm:text-xs mb-3.5" style="color:rgba(81,70,63,0.5);">{{ account.bankName }}</p>
+            <p class="font-serif font-semibold text-sm sm:text-base mb-1" style="color:#51463F;">{{ account.name }}</p>
+            <p class="font-sans text-xs sm:text-sm mb-4" style="color:rgba(81,70,63,0.6);">{{ account.bankName }}</p>
 
             <!-- Copy STK button -->
-            <button @click="copySTK(account)" class="w-full flex items-center justify-center gap-2 py-2.5 transition-all duration-300 active:scale-[0.99]"
-              style="border:1px solid rgba(199,168,120,0.4); border-radius:6px; background:#F8F5EF;"
-              :style="copiedId===account.accountNumber ? 'border-color:#C7A878;background:rgba(199,168,120,0.12);' : ''">
-              <span class="font-sans text-xs sm:text-sm font-medium tracking-wider" style="color:#51463F;">{{ account.accountNumber }}</span>
+            <button @click="copySTK(account)" class="w-full flex items-center justify-center gap-2.5 py-3 transition-all duration-300 hover:bg-[#E8DED0]/50 active:scale-[0.99]"
+              style="border:1.5px solid rgba(199,168,120,0.4); border-radius:8px; background:#F8F5EF;"
+              :style="copiedId===account.accountNumber ? 'border-color:#C7A878;background:rgba(199,168,120,0.15);' : ''">
+              <span class="font-sans text-xs sm:text-sm font-semibold tracking-wider" style="color:#51463F;">{{ account.accountNumber }}</span>
               <!-- Luxury copy icon -->
-              <svg class="w-3.5 h-3.5" style="color:#C7A878;" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+              <svg class="w-4 h-4" style="color:#C7A878;" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"/>
               </svg>
-              <span class="font-sans text-xs" style="color:#C7A878;">
+              <span class="font-sans text-xs font-medium" style="color:#C7A878;">
                 {{ copiedId===account.accountNumber ? '✅ Đã sao chép' : 'Sao chép' }}
               </span>
             </button>
