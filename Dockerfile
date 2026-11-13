@@ -1,4 +1,4 @@
-# ─── Stage 1: Build ───────────────────────────────────────────────
+# ─── Stage 1: Build Frontend ───────────────────────────────────────────
 FROM node:22-alpine AS builder
 
 WORKDIR /app
@@ -11,19 +11,27 @@ RUN npm ci --prefer-offline
 COPY . .
 RUN npm run build
 
-# ─── Stage 2: Serve via Nginx ─────────────────────────────────────
-FROM nginx:1.27-alpine AS runtime
+# ─── Stage 2: Production Server (Node.js + SQLite Backend + Static) ────
+FROM node:22-alpine AS runtime
 
-# Remove default nginx page
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copy built assets
-COPY --from=builder /app/dist /usr/share/nginx/html
+ENV NODE_ENV=production
+ENV PORT=80
 
-# Custom nginx config (SPA fallback + gzip)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Cài đặt công cụ cần thiết cho better-sqlite3 nếu cần build
+RUN apk add --no-cache python3 make g++
+
+COPY package*.json ./
+RUN npm ci --omit=dev --prefer-offline
+
+# Copy backend server & built frontend
+COPY server/ ./server/
+COPY --from=builder /app/dist ./dist
+
+# Tạo thư mục lưu database
+RUN mkdir -p /app/server/data
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
-
+CMD ["node", "server/index.js"]

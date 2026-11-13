@@ -1,1 +1,7 @@
 node_modules/
+.codegraph/
+dist/
+server/data/*.db-wal
+server/data/*.db-shm
+server/data/*.db
+server/data/

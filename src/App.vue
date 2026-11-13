@@ -1,5 +1,9 @@
 <template>
-  <div class="relative min-h-screen" :class="{'overflow-hidden h-screen': gateClosed}">
+  <!-- TRANG ADMIN -->
+  <AdminDashboard v-if="isAdminRoute" />
+
+  <!-- TRANG CHỦ THIỆP CƯỚI -->
+  <div v-else class="relative min-h-screen" :class="{'overflow-hidden h-screen': gateClosed}">
     <!-- Falling petals layer (khi mở cửa xong) -->
     <FallingPetals v-if="gateOpened" />
 
@@ -28,11 +32,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useWeddingConfig } from '@/composables/useWeddingData.js'
 import { useAutoScroll }    from '@/composables/useAutoScroll.js'
 import { useAudio }         from '@/composables/useAudio.js'
 
+import AdminDashboard    from '@/components/admin/AdminDashboard.vue'
 import WeddingGate       from '@/components/door/WeddingGate.vue'
 import FallingPetals     from '@/components/common/FallingPetals.vue'
 import AudioPlayer       from '@/components/common/AudioPlayer.vue'
@@ -47,6 +52,11 @@ import PhotoGallery      from '@/components/sections/07_PhotoGallery.vue'
 import RsvpForm          from '@/components/sections/08_RsvpForm.vue'
 import WishesAndGifts    from '@/components/sections/09_WishesAndGifts.vue'
 import ThankYou          from '@/components/sections/10_ThankYou.vue'
+
+const isAdminRoute = computed(() =>
+  window.location.pathname === '/admin' ||
+  window.location.hash === '#admin'
+)
 
 const { config, guestName, guestRole } = useWeddingConfig()
 const { triggerFromGesture } = useAudio()
