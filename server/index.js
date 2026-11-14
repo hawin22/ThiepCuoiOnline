@@ -84,8 +84,8 @@ app.get('/api/wishes/stream', (req, res) => {
   addSseClient(req, res)
 })
 
-// 4. Lấy danh sách xác nhận tham dự (RSVP)
-app.get('/api/rsvps', (req, res) => {
+// 4. Lấy danh sách xác nhận tham dự (RSVP) - Hỗ trợ cả /api/rsvps và /api/rsvp
+const handleGetRsvps = (req, res) => {
   try {
     const rsvps = getAllRsvps()
     res.json({ success: true, data: rsvps })
@@ -93,7 +93,9 @@ app.get('/api/rsvps', (req, res) => {
     console.error('Lỗi khi lấy danh sách RSVP:', error)
     res.status(500).json({ success: false, error: 'Không thể tải danh sách RSVP' })
   }
-})
+}
+app.get('/api/rsvps', handleGetRsvps)
+app.get('/api/rsvp', handleGetRsvps)
 
 // 5. Gửi xác nhận tham dự (RSVP) + Broadcast tới Admin Realtime
 app.post('/api/rsvp', (req, res) => {

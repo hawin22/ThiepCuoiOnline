@@ -120,11 +120,11 @@
                 <td class="px-4 py-2 font-medium text-gray-700 whitespace-nowrap">{{ rsvp.name }}</td>
                 <td class="px-4 py-2 text-gray-500 whitespace-nowrap">{{ rsvp.phone || '—' }}</td>
                 <td class="px-4 py-2">
-                  <span :class="['px-2 py-0.5 rounded-full text-xs font-semibold', rsvp.attending ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500']">
-                    {{ rsvp.attending ? 'Có' : 'Không' }}
+                  <span :class="['px-2 py-0.5 rounded-full text-xs font-semibold', (rsvp.attending === 'yes' || rsvp.attending === true) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500']">
+                    {{ (rsvp.attending === 'yes' || rsvp.attending === true) ? 'Có' : 'Không' }}
                   </span>
                 </td>
-                <td class="px-4 py-2 text-gray-600">{{ rsvp.guests || 1 }}</td>
+                <td class="px-4 py-2 text-gray-600">{{ rsvp.partySize || rsvp.guests || 1 }}</td>
                 <td class="px-4 py-2 text-gray-500 max-w-xs truncate">{{ rsvp.note || '—' }}</td>
                 <td class="px-4 py-2 text-gray-400 whitespace-nowrap text-xs">{{ formatDate(rsvp.createdAt) }}</td>
                 <td class="px-4 py-2 text-center">
@@ -201,7 +201,7 @@ function authHeaders() {
 async function loadAll() {
   const [wRes, rRes] = await Promise.all([
     fetch('/api/wishes', { headers: authHeaders() }),
-    fetch('/api/rsvp', { headers: authHeaders() }),
+    fetch('/api/rsvps', { headers: authHeaders() }),
   ])
   if (wRes.ok) wishes.value = (await wRes.json()).data || []
   if (rRes.ok) rsvps.value = (await rRes.json()).data || []
@@ -290,8 +290,14 @@ async function deleteRsvp(id) {
 }
 
 // ── COMPUTED ──────────────────────────────────────────────────────────────────
-const attendingCount = computed(() => rsvps.value.filter(r => r.attending).length)
-const totalGuests = computed(() => rsvps.value.filter(r => r.attending).reduce((s, r) => s + (r.guests || 1), 0))
+const attendingCount = computed(() =>
+  rsvps.value.filter(r => r.attending === 'yes' || r.attending === true).length
+)
+const totalGuests = computed(() =>
+  rsvps.value
+    .filter(r => r.attending === 'yes' || r.attending === true)
+    .reduce((s, r) => s + (Number(r.partySize) || Number(r.guests) || 1), 0)
+)
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function formatDate(iso) {
@@ -316,19 +322,25 @@ function downloadCsv(content, filename) {
 function exportWishesCsv() {
   downloadCsv(toCsv(wishes.value, [
     { key: 'id', label: 'ID' },
-    { key: 'name', label: 'Tên' },
+    { key: 'sender', label: 'Người gửi' },
+    { key: 'relationship', label: 'Quan hệ' },
     { key: 'message', label: 'Lời chúc' },
     { key: 'createdAt', label: 'Thời gian' },
   ]), `loi-chuc-${Date.now()}.csv`)
 }
 
 function exportRsvpCsv() {
-  downloadCsv(toCsv(rsvps.value, [
+  const mapped = rsvps.value.map(r => ({
+    ...r,
+    attendingLabel: (r.attending === 'yes' || r.attending === true) ? 'Có' : 'Không',
+    guestCount: r.partySize || r.guests || 1,
+  }))
+  downloadCsv(toCsv(mapped, [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Tên' },
     { key: 'phone', label: 'Điện thoại' },
-    { key: 'attending', label: 'Tham dự' },
-    { key: 'guests', label: 'Số khách' },
+    { key: 'attendingLabel', label: 'Tham dự' },
+    { key: 'guestCount', label: 'Số khách' },
     { key: 'note', label: 'Ghi chú' },
     { key: 'createdAt', label: 'Thời gian' },
   ]), `ds-tham-du-${Date.now()}.csv`)
