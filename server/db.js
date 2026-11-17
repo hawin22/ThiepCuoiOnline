@@ -18,7 +18,7 @@ const db = new Database(DB_PATH)
 // Bật WAL mode (Write-Ahead Logging) để tăng tốc độ ghi/đọc đồng thời mượt mà
 db.pragma('journal_mode = WAL')
 
-// 1. Tạo bảng wishes (Sổ lưu bút)
+// 1. Tạo bảng wishes (Sổ lưu bút) & Indexes tối ưu truy vấn
 db.exec(`
   CREATE TABLE IF NOT EXISTS wishes (
     id TEXT PRIMARY KEY,
@@ -27,9 +27,10 @@ db.exec(`
     message TEXT NOT NULL,
     created_at TEXT NOT NULL
   );
+  CREATE INDEX IF NOT EXISTS idx_wishes_created_at ON wishes (created_at DESC);
 `)
 
-// 2. Tạo bảng rsvps (Xác nhận tham dự)
+// 2. Tạo bảng rsvps (Xác nhận tham dự) & Indexes tối ưu truy vấn
 db.exec(`
   CREATE TABLE IF NOT EXISTS rsvps (
     id TEXT PRIMARY KEY,
@@ -40,6 +41,9 @@ db.exec(`
     note TEXT DEFAULT '',
     created_at TEXT NOT NULL
   );
+  CREATE INDEX IF NOT EXISTS idx_rsvps_created_at ON rsvps (created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_rsvps_attending ON rsvps (attending, created_at DESC);
+  CREATE INDEX IF NOT EXISTS idx_rsvps_phone ON rsvps (phone);
 `)
 
 // 3. Seed dữ liệu mẫu ban đầu nếu bảng wishes đang trống
@@ -81,6 +85,64 @@ export function getAllWishes() {
   return stmt.all()
 }
 
+/**
+ * Truy vấn danh sách Lời chúc có tìm kiếm và phân trang tối ưu
+ */
+export function queryWishes({ page = 1, limit = 10, search = '' } = {}) {
+  const whereClauses = []
+  const params = []
+
+  const trimmedSearch = (search || '').trim()
+  if (trimmedSearch) {
+    whereClauses.push('(sender LIKE ? OR relationship LIKE ? OR message LIKE ?)')
+    const pattern = `%${trimmedSearch}%`
+    params.push(pattern, pattern, pattern)
+  }
+
+  const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : ''
+
+  const countStmt = db.prepare(`SELECT COUNT(*) as total FROM wishes ${whereSql}`)
+  const { total } = countStmt.get(...params)
+
+  const pageNum = Math.max(1, parseInt(page, 10) || 1)
+  const limitNum = parseInt(limit, 10)
+
+  let data
+  if (limitNum > 0) {
+    const offset = (pageNum - 1) * limitNum
+    const dataStmt = db.prepare(`
+      SELECT id, sender, relationship, message, created_at as createdAt
+      FROM wishes
+      ${whereSql}
+      ORDER BY datetime(created_at) DESC
+      LIMIT ? OFFSET ?
+    `)
+    data = dataStmt.all(...params, limitNum, offset)
+  } else {
+    const dataStmt = db.prepare(`
+      SELECT id, sender, relationship, message, created_at as createdAt
+      FROM wishes
+      ${whereSql}
+      ORDER BY datetime(created_at) DESC
+    `)
+    data = dataStmt.all(...params)
+  }
+
+  const totalPages = limitNum > 0 ? (Math.ceil(total / limitNum) || 1) : 1
+
+  return {
+    data,
+    pagination: {
+      page: pageNum,
+      limit: limitNum > 0 ? limitNum : total,
+      total,
+      totalPages,
+      hasNext: pageNum < totalPages,
+      hasPrev: pageNum > 1,
+    },
+  }
+}
+
 export function createWish({ sender, relationship = '', message }) {
   const id = `wish-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
   const createdAt = new Date().toISOString()
@@ -97,6 +159,69 @@ export function createWish({ sender, relationship = '', message }) {
 export function getAllRsvps() {
   const stmt = db.prepare('SELECT id, name, phone, attending, party_size as partySize, note, created_at as createdAt FROM rsvps ORDER BY datetime(created_at) DESC')
   return stmt.all()
+}
+
+/**
+ * Truy vấn danh sách RSVP có tìm kiếm và phân trang tối ưu
+ */
+export function queryRsvps({ page = 1, limit = 10, search = '', attending = 'all' } = {}) {
+  const whereClauses = []
+  const params = []
+
+  if (attending === 'yes' || attending === 'no') {
+    whereClauses.push('attending = ?')
+    params.push(attending)
+  }
+
+  const trimmedSearch = (search || '').trim()
+  if (trimmedSearch) {
+    whereClauses.push('(name LIKE ? OR phone LIKE ? OR note LIKE ?)')
+    const pattern = `%${trimmedSearch}%`
+    params.push(pattern, pattern, pattern)
+  }
+
+  const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : ''
+
+  const countStmt = db.prepare(`SELECT COUNT(*) as total FROM rsvps ${whereSql}`)
+  const { total } = countStmt.get(...params)
+
+  const pageNum = Math.max(1, parseInt(page, 10) || 1)
+  const limitNum = parseInt(limit, 10)
+
+  let data
+  if (limitNum > 0) {
+    const offset = (pageNum - 1) * limitNum
+    const dataStmt = db.prepare(`
+      SELECT id, name, phone, attending, party_size as partySize, note, created_at as createdAt
+      FROM rsvps
+      ${whereSql}
+      ORDER BY datetime(created_at) DESC
+      LIMIT ? OFFSET ?
+    `)
+    data = dataStmt.all(...params, limitNum, offset)
+  } else {
+    const dataStmt = db.prepare(`
+      SELECT id, name, phone, attending, party_size as partySize, note, created_at as createdAt
+      FROM rsvps
+      ${whereSql}
+      ORDER BY datetime(created_at) DESC
+    `)
+    data = dataStmt.all(...params)
+  }
+
+  const totalPages = limitNum > 0 ? (Math.ceil(total / limitNum) || 1) : 1
+
+  return {
+    data,
+    pagination: {
+      page: pageNum,
+      limit: limitNum > 0 ? limitNum : total,
+      total,
+      totalPages,
+      hasNext: pageNum < totalPages,
+      hasPrev: pageNum > 1,
+    },
+  }
 }
 
 export function createRsvp({ name, phone = '', attending = 'yes', partySize = 1, note = '' }) {

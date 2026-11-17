@@ -5,10 +5,12 @@ import fs from 'fs'
 import { fileURLToPath } from 'url'
 import {
   getAllWishes,
+  queryWishes,
   createWish,
   updateWish,
   deleteWish,
   getAllRsvps,
+  queryRsvps,
   createRsvp,
   updateRsvp,
   deleteRsvp,
@@ -44,9 +46,18 @@ function requireAdmin(req, res, next) {
 
 // ─── PUBLIC API ROUTES ────────────────────────────────────────────
 
-// 1. Lấy danh sách lời chúc
+// 1. Lấy danh sách lời chúc (hỗ trợ tìm kiếm & phân trang tối ưu)
 app.get('/api/wishes', (req, res) => {
   try {
+    const { page, limit, search } = req.query
+    if (page !== undefined || limit !== undefined || search !== undefined) {
+      const result = queryWishes({
+        page: page ? parseInt(page, 10) : 1,
+        limit: limit !== undefined ? parseInt(limit, 10) : 10,
+        search: search || '',
+      })
+      return res.json({ success: true, data: result.data, pagination: result.pagination })
+    }
     const wishes = getAllWishes()
     res.json({ success: true, data: wishes })
   } catch (error) {
@@ -84,9 +95,19 @@ app.get('/api/wishes/stream', (req, res) => {
   addSseClient(req, res)
 })
 
-// 4. Lấy danh sách xác nhận tham dự (RSVP) - Hỗ trợ cả /api/rsvps và /api/rsvp
+// 4. Lấy danh sách xác nhận tham dự (RSVP) - Hỗ trợ cả /api/rsvps và /api/rsvp (có tìm kiếm & phân trang tối ưu)
 const handleGetRsvps = (req, res) => {
   try {
+    const { page, limit, search, attending } = req.query
+    if (page !== undefined || limit !== undefined || search !== undefined || attending !== undefined) {
+      const result = queryRsvps({
+        page: page ? parseInt(page, 10) : 1,
+        limit: limit !== undefined ? parseInt(limit, 10) : 10,
+        search: search || '',
+        attending: attending || 'all',
+      })
+      return res.json({ success: true, data: result.data, pagination: result.pagination })
+    }
     const rsvps = getAllRsvps()
     res.json({ success: true, data: rsvps })
   } catch (error) {
