@@ -224,15 +224,20 @@ export function useGuestData() {
           saveToStorage(guestData.value)
           return json.data
         }
+      } else {
+        const errJson = await res.json().catch(() => ({}))
+        throw new Error(errJson.error || 'Gửi xác nhận thất bại')
       }
     } catch (err) {
+      if (err.message && !err.message.includes('fetch')) {
+        throw err
+      }
       console.warn('[Wedding API] Lỗi gửi RSVP tới Server, lưu local:', err.message)
+      // Fallback lưu local nếu offline/mất mạng
+      guestData.value.rsvps.push(tempRsvp)
+      saveToStorage(guestData.value)
+      return tempRsvp
     }
-
-    // Fallback lưu local nếu offline
-    guestData.value.rsvps.push(tempRsvp)
-    saveToStorage(guestData.value)
-    return tempRsvp
   }
 
   function exportData() {

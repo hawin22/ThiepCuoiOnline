@@ -38,14 +38,24 @@
 
           <!-- Điện thoại -->
           <div>
-            <label class="form-label">Số điện thoại</label>
-            <div class="input-wrap">
+            <label class="form-label">Số điện thoại *</label>
+            <div class="input-wrap" :class="phoneError ? '!border-red-400 bg-red-50/20' : ''">
               <!-- Luxury phone icon -->
-              <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
+              <svg class="input-icon" :class="phoneError ? 'text-red-400' : ''" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
               </svg>
-              <input v-model="form.phone" type="tel" placeholder="0901 234 567" class="form-input" />
+              <input
+                v-model="form.phone"
+                @input="validatePhone"
+                type="tel"
+                required
+                placeholder="Ví dụ: 0901234567"
+                class="form-input"
+              />
             </div>
+            <p v-if="phoneError" class="font-sans text-[11px] text-red-500 mt-1 pl-1 flex items-center gap-1">
+              <span>⚠</span> {{ phoneError }}
+            </p>
           </div>
 
           <!-- Có tham dự không -->
@@ -128,6 +138,10 @@
         </div>
 
         <!-- Submit Button -->
+        <div v-if="submitError" class="p-3 rounded bg-red-50 border border-red-200 text-red-600 text-xs text-center font-sans">
+          {{ submitError }}
+        </div>
+
         <button type="submit" :disabled="isSubmitting"
           class="w-full mt-6 py-3.5 sm:py-4 font-sans font-semibold text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2"
           style="background:linear-gradient(135deg,#C7A878 0%,#D8BF96 50%,#C7A878 100%);
@@ -189,23 +203,72 @@ const { addRsvp } = useGuestData()
 
 const submitted    = ref(false)
 const isSubmitting = ref(false)
+const phoneError   = ref('')
+const submitError  = ref('')
 const form = reactive({ name:'', phone:'', attending:'yes', partySize:1, note:'' })
 
 function incGuests() { if (form.partySize < 10) form.partySize++ }
 function decGuests() { if (form.partySize >  1) form.partySize-- }
 
+function validatePhone() {
+  submitError.value = ''
+  const val = (form.phone || '').trim()
+
+  if (!val) {
+    phoneError.value = 'Vui lòng nhập số điện thoại'
+    return false
+  }
+
+  // Kiểm tra không được chứa ký tự chữ (kể cả chữ Latin và tiếng Việt)
+  if (/[a-zA-Z\p{L}]/u.test(val)) {
+    phoneError.value = 'Số điện thoại không được chứa ký tự chữ'
+    return false
+  }
+
+  // Đếm tổng số chữ số
+  const digits = val.replace(/\D/g, '')
+  if (digits.length < 10 || digits.length > 15) {
+    phoneError.value = 'Số điện thoại phải từ 10 đến 15 chữ số'
+    return false
+  }
+
+  phoneError.value = ''
+  return true
+}
+
 async function handleSubmit() {
-  if (!form.name) return
+  submitError.value = ''
+  if (!form.name || !form.name.trim()) return
+
+  if (!validatePhone()) {
+    return
+  }
+
   isSubmitting.value = true
-  await new Promise(r => setTimeout(r, 700))
-  addRsvp({ ...form })
   try {
-    const confetti = (await import('canvas-confetti')).default
-    confetti({ particleCount:100, spread:70, origin:{ y:0.6 },
-      colors:['#C7A878','#D8BF96','#F8F5EF','#B9827A','#E8DED0'] })
-  } catch {}
-  isSubmitting.value = false
-  submitted.value    = true
+    await addRsvp({
+      ...form,
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      note: (form.note || '').trim(),
+    })
+
+    try {
+      const confetti = (await import('canvas-confetti')).default
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#C7A878', '#D8BF96', '#F8F5EF', '#B9827A', '#E8DED0'],
+      })
+    } catch {}
+
+    submitted.value = true
+  } catch (err) {
+    submitError.value = err.message || 'Có lỗi xảy ra khi gửi xác nhận, vui lòng thử lại!'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 

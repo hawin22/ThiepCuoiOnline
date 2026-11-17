@@ -98,10 +98,49 @@
 
       <!-- RSVP TABLE -->
       <section class="bg-white rounded-xl shadow-sm">
-        <div class="flex items-center justify-between px-5 py-4 border-b">
-          <h2 class="font-semibold text-gray-700">✅ Xác nhận tham dự ({{ rsvps.length }})</h2>
-          <button @click="exportRsvpCsv" class="text-xs bg-green-50 text-green-600 border border-green-200 px-3 py-1 rounded-lg hover:bg-green-100 transition">Xuất CSV</button>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between px-5 py-4 border-b gap-3">
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+            <h2 class="font-semibold text-gray-700">✅ Xác nhận tham dự ({{ filteredRsvps.length }}/{{ rsvps.length }})</h2>
+
+            <!-- BỘ LỌC THAM DỰ -->
+            <div class="inline-flex rounded-lg p-0.5 bg-gray-100 text-xs font-medium">
+              <button
+                @click="rsvpFilter = 'all'"
+                :class="['px-2.5 py-1 rounded-md transition', rsvpFilter === 'all' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-800']"
+              >
+                Tất cả ({{ rsvps.length }})
+              </button>
+              <button
+                @click="rsvpFilter = 'yes'"
+                :class="['px-2.5 py-1 rounded-md transition flex items-center gap-1', rsvpFilter === 'yes' ? 'bg-white text-green-700 shadow-sm font-semibold' : 'text-gray-500 hover:text-green-700']"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                Tham dự ({{ attendingCount }})
+              </button>
+              <button
+                @click="rsvpFilter = 'no'"
+                :class="['px-2.5 py-1 rounded-md transition flex items-center gap-1', rsvpFilter === 'no' ? 'bg-white text-red-600 shadow-sm font-semibold' : 'text-gray-500 hover:text-red-600']"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                Không tham dự ({{ notAttendingCount }})
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              @click="exportRsvpCsv"
+              class="text-xs bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-lg hover:bg-green-100 transition flex items-center gap-1.5 font-medium shadow-sm"
+              :title="`Xuất danh sách: ${rsvpFilter === 'yes' ? 'Sẽ tham dự' : (rsvpFilter === 'no' ? 'Không tham dự' : 'Tất cả')}`"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+              </svg>
+              <span>Xuất CSV ({{ rsvpFilter === 'yes' ? 'Tham dự' : (rsvpFilter === 'no' ? 'Không tham dự' : 'Tất cả') }})</span>
+            </button>
+          </div>
         </div>
+
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-500">
@@ -116,23 +155,30 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="rsvp in rsvps" :key="rsvp.id" class="border-t hover:bg-gray-50">
+              <tr v-for="rsvp in filteredRsvps" :key="rsvp.id" class="border-t hover:bg-gray-50">
                 <td class="px-4 py-2 font-medium text-gray-700 whitespace-nowrap">{{ rsvp.name }}</td>
-                <td class="px-4 py-2 text-gray-500 whitespace-nowrap">{{ rsvp.phone || '—' }}</td>
+                <td class="px-4 py-2 text-gray-500 whitespace-nowrap">
+                  <a v-if="rsvp.phone" :href="`tel:${rsvp.phone}`" class="text-blue-600 hover:underline">{{ rsvp.phone }}</a>
+                  <span v-else>—</span>
+                </td>
                 <td class="px-4 py-2">
                   <span :class="['px-2 py-0.5 rounded-full text-xs font-semibold', (rsvp.attending === 'yes' || rsvp.attending === true) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-500']">
                     {{ (rsvp.attending === 'yes' || rsvp.attending === true) ? 'Có' : 'Không' }}
                   </span>
                 </td>
-                <td class="px-4 py-2 text-gray-600">{{ rsvp.partySize || rsvp.guests || 1 }}</td>
-                <td class="px-4 py-2 text-gray-500 max-w-xs truncate">{{ rsvp.note || '—' }}</td>
+                <td class="px-4 py-2 text-gray-600">
+                  {{ (rsvp.attending === 'yes' || rsvp.attending === true) ? (rsvp.partySize || rsvp.guests || 1) : 0 }}
+                </td>
+                <td class="px-4 py-2 text-gray-500 max-w-xs truncate" :title="rsvp.note">{{ rsvp.note || '—' }}</td>
                 <td class="px-4 py-2 text-gray-400 whitespace-nowrap text-xs">{{ formatDate(rsvp.createdAt) }}</td>
                 <td class="px-4 py-2 text-center">
                   <button @click="deleteRsvp(rsvp.id)" class="text-red-400 hover:underline text-xs">Xóa</button>
                 </td>
               </tr>
-              <tr v-if="rsvps.length === 0">
-                <td colspan="7" class="text-center py-8 text-gray-400">Chưa có xác nhận nào</td>
+              <tr v-if="filteredRsvps.length === 0">
+                <td colspan="7" class="text-center py-8 text-gray-400">
+                  {{ rsvps.length === 0 ? 'Chưa có xác nhận nào' : 'Không có xác nhận nào phù hợp bộ lọc' }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -155,6 +201,7 @@ const form = ref({ username: '', password: '' })
 
 const wishes = ref([])
 const rsvps = ref([])
+const rsvpFilter = ref('all') // 'all' | 'yes' | 'no'
 const editingWish = ref(null)
 const sseConnected = ref(false)
 
@@ -293,11 +340,23 @@ async function deleteRsvp(id) {
 const attendingCount = computed(() =>
   rsvps.value.filter(r => r.attending === 'yes' || r.attending === true).length
 )
+const notAttendingCount = computed(() =>
+  rsvps.value.filter(r => r.attending === 'no' || r.attending === false).length
+)
 const totalGuests = computed(() =>
   rsvps.value
     .filter(r => r.attending === 'yes' || r.attending === true)
     .reduce((s, r) => s + (Number(r.partySize) || Number(r.guests) || 1), 0)
 )
+const filteredRsvps = computed(() => {
+  if (rsvpFilter.value === 'yes') {
+    return rsvps.value.filter(r => r.attending === 'yes' || r.attending === true)
+  }
+  if (rsvpFilter.value === 'no') {
+    return rsvps.value.filter(r => r.attending === 'no' || r.attending === false)
+  }
+  return rsvps.value
+})
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function formatDate(iso) {
@@ -330,11 +389,17 @@ function exportWishesCsv() {
 }
 
 function exportRsvpCsv() {
-  const mapped = rsvps.value.map(r => ({
+  const targetList = filteredRsvps.value
+  let filterSuffix = 'tat-ca'
+  if (rsvpFilter.value === 'yes') filterSuffix = 'tham-du'
+  else if (rsvpFilter.value === 'no') filterSuffix = 'khong-tham-du'
+
+  const mapped = targetList.map(r => ({
     ...r,
     attendingLabel: (r.attending === 'yes' || r.attending === true) ? 'Có' : 'Không',
-    guestCount: r.partySize || r.guests || 1,
+    guestCount: (r.attending === 'yes' || r.attending === true) ? (r.partySize || r.guests || 1) : 0,
   }))
+
   downloadCsv(toCsv(mapped, [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Tên' },
@@ -343,7 +408,7 @@ function exportRsvpCsv() {
     { key: 'guestCount', label: 'Số khách' },
     { key: 'note', label: 'Ghi chú' },
     { key: 'createdAt', label: 'Thời gian' },
-  ]), `ds-tham-du-${Date.now()}.csv`)
+  ]), `ds-${filterSuffix}-${Date.now()}.csv`)
 }
 
 // ── LIFECYCLE ─────────────────────────────────────────────────────────────────

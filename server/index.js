@@ -101,13 +101,30 @@ app.get('/api/rsvp', handleGetRsvps)
 app.post('/api/rsvp', (req, res) => {
   try {
     const { name, phone, attending, partySize, note } = req.body
-    if (!name) {
+    if (!name || !name.trim()) {
       return res.status(400).json({ success: false, error: 'Họ và tên là bắt buộc' })
+    }
+
+    const trimmedPhone = (phone || '').trim()
+    if (!trimmedPhone) {
+      return res.status(400).json({ success: false, error: 'Số điện thoại là bắt buộc' })
+    }
+
+    // Kiểm tra không chứa ký tự chữ (bao gồm cả chữ Latinh và tiếng Việt có dấu)
+    const hasLetters = /[a-zA-Z\p{L}]/u.test(trimmedPhone)
+    if (hasLetters) {
+      return res.status(400).json({ success: false, error: 'Số điện thoại không được chứa ký tự chữ' })
+    }
+
+    // Kiểm tra độ dài từ 10 đến 15 chữ số
+    const digitsOnly = trimmedPhone.replace(/\D/g, '')
+    if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+      return res.status(400).json({ success: false, error: 'Số điện thoại phải từ 10 đến 15 chữ số' })
     }
 
     const newRsvp = createRsvp({
       name: name.trim(),
-      phone: (phone || '').trim(),
+      phone: trimmedPhone,
       attending: attending === 'no' ? 'no' : 'yes',
       partySize: Number(partySize) || 1,
       note: (note || '').trim(),
