@@ -1,34 +1,20 @@
 {
   "settings": {
     "autoPlayOnOpenGate": true,
-    "defaultVolume": 65,
-    "loop": true,
-    "showTitleOnPlay": true
+    "defaultVolume": 70,
+    "loop": true
   },
   "playlist": [
     {
-      "id": "track-1",
-      "title": "Yêu là cưới",
-      "artist": "Đông Nhi - Ông Cao Thắng",
-      "url": "https://www.youtube.com/watch?v=SyIlBebhgw8&list=RDSyIlBebhgw8&start_radio=1"
-    },
-    {
-      "id": "track-2",
-      "title": "Váy cưới ",
-      "artist": "Kai Đinh - ERIK",
-      "url": "http://youtube.com/watch?v=hSxQln8dIQQ"
-    },
-    {
-      "id": "track-3",
-      "title": "Em Đồng Ý (I Do)",
-      "artist": "Đức Phúc (feat. 911 & Khắc Hưng) ",
-      "url": "https://www.youtube.com/watch?v=IOe0tNoUGv8"
-    },
-    {
-      "id": "track-4",
-      "title": "Ta là của nhau",
-      "artist": "Đông Nhi - Ông Cao Thắng",
-      "url": "https://www.youtube.com/watch?v=LG5hQJsO8k0"
+      "id": "track-vay-cuoi",
+      "title": "Váy Cưới",
+      "artist": "ERIK",
+      "url": "/music/Váy Cưới.mp3"
     }
-  ]
+  ],
+  "track": {
+    "title": "Váy Cưới",
+    "artist": "ERIK",
+    "src": "/music/Váy Cưới.mp3"
+  }
 }

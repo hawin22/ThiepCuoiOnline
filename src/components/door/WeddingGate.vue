@@ -25,7 +25,7 @@
           </div>
 
           <!-- ── Chữ 囍 LỚN NỔI BẬT nền cánh trái ─────────── -->
-          <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none -translate-x-[15%] md:-translate-x-[10%] lg:-translate-x-[8%]"
             style="font-size:clamp(110px,20vw,210px); line-height:1; color:#B9827A; opacity:0.46;
                    font-family:'Playfair Display', serif; font-weight:700;
                    text-shadow: 0 2px 4px rgba(255,255,255,0.7), 0 4px 16px rgba(185,130,122,0.3);
@@ -89,7 +89,7 @@
           </div>
 
           <!-- ── Chữ 囍 LỚN NỔI BẬT nền cánh phải ─────────── -->
-          <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none translate-x-[15%] md:translate-x-[10%] lg:translate-x-[8%]"
             style="font-size:clamp(110px,20vw,210px); line-height:1; color:#B9827A; opacity:0.46;
                    font-family:'Playfair Display', serif; font-weight:700;
                    text-shadow: 0 2px 4px rgba(255,255,255,0.7), 0 4px 16px rgba(185,130,122,0.3);
@@ -148,16 +148,16 @@
 
           <!-- Con dấu P&K -->
           <button @click="openGate" :disabled="isOpening"
-            class="pointer-events-auto relative group z-10 flex flex-col items-center gap-4 sm:gap-5 outline-none">
+            class="pointer-events-auto relative group z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 outline-none">
 
             <!-- Vầng sáng pulsing -->
             <div class="absolute rounded-full animate-pulse-slow pointer-events-none transition-opacity duration-300"
               :class="isOpening ? 'opacity-0' : 'opacity-100'"
-              style="inset:-18px sm:inset:-22px;background:radial-gradient(circle,rgba(185,130,122,0.22) 0%,transparent 70%);">
+              style="inset:-18px;background:radial-gradient(circle,rgba(185,130,122,0.22) 0%,transparent 70%);">
             </div>
 
             <!-- Đĩa con dấu (Responsive size) -->
-            <div class="relative select-none cursor-pointer transition-all duration-500 w-32 h-32 sm:w-36 sm:h-36"
+            <div class="relative select-none cursor-pointer transition-all duration-500 w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52"
               :class="isOpening ? 'scale-75 opacity-0 pointer-events-none' : 'scale-100 opacity-100 group-hover:scale-108'">
 
               <svg class="absolute inset-0 w-full h-full" viewBox="0 0 144 144">
@@ -182,7 +182,7 @@
 
               <!-- Chữ 囍 mờ bên trong con dấu (texture) -->
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none" style="opacity:0.12;">
-                <span style="font-size:64px; sm:font-size:72px; line-height:1;color:#F8F5EF;font-family:serif;letter-spacing:-4px;">囍</span>
+                <span class="text-5xl sm:text-5xl md:text-6xl lg:text-7xl" style="line-height:1;color:#F8F5EF;font-family:serif;letter-spacing:-4px;">囍</span>
               </div>
 
               <!-- Vòng trang trí khắc bên trong -->
@@ -197,8 +197,9 @@
 
               <!-- Chữ monogram P & K -->
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="font-script leading-none select-none text-3xl sm:text-4xl text-[#FAF7F2]"
-                  style="text-shadow: 0 2px 10px rgba(60,20,18,0.6), 0 0 24px rgba(248,247,242,0.2);">
+                <span class="font-script leading-none select-none text-[#FAF7F2]"
+                  style="font-size: clamp(28px, calc(18px + 3.1vw), 46px);
+                         text-shadow: 0 2px 10px rgba(60,20,18,0.6), 0 0 24px rgba(248,247,242,0.2);">
                   P &amp; K
                 </span>
               </div>
@@ -207,7 +208,7 @@
             <!-- Label bên dưới con dấu -->
             <div class="text-center transition-opacity duration-300"
               :class="isOpening ? 'opacity-0' : 'opacity-100'">
-              <p class="font-script animate-float text-base sm:text-lg"
+              <p class="font-script animate-float text-base sm:text-lg md:text-xl"
                 style="color:#51463F; opacity:0.85;">
                 {{ config.gate.sealSubtitle }}
               </p>

@@ -122,7 +122,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5"/>
         </svg>
         <span class="font-sans text-[11px]" style="color:rgba(248,245,239,0.9);">
-          {{ autoPlay ? 'Tự chuyển' : 'Tạm dừng' }}
+          {{ autoPlay ? 'Play' : 'Pause' }}
         </span>
       </button>
     </div>
@@ -156,7 +156,7 @@ const autoPlay = ref(true)
 const isDesktop = ref(false)
 let timer = null
 
-const INTERVAL = 4500
+const INTERVAL = 3000
 
 function checkScreen() {
   if (typeof window !== 'undefined') {

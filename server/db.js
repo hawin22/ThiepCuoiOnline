@@ -51,26 +51,12 @@ if (countWishes.count === 0) {
   `)
 
   const initialWishes = [
-    {
-      id: 'wish-1',
-      sender: 'Gia đình Bác Ba',
-      relationship: 'Họ hàng nhà trai',
-      message: 'Chúc hai cháu trăm năm hạnh phúc, tình nghĩa vẹn tròn, sớm sinh quý tử nhé!',
-      created_at: new Date(Date.now() - 3600000 * 24 * 3).toISOString(),
-    },
-    {
-      id: 'wish-2',
-      sender: 'Hội Bạn Thân',
-      relationship: 'Bạn thân cô dâu',
-      message: 'Chúc cô dâu xinh đẹp của chúng mình mãi luôn rạng rỡ và hạnh phúc viên mãn bên bến đỗ yêu thương!',
-      created_at: new Date(Date.now() - 3600000 * 24 * 2).toISOString(),
-    },
-    {
-      id: 'wish-3',
-      sender: 'Anh Em Đồng Nghiệp',
-      relationship: 'Đồng nghiệp chú rể',
-      message: 'Chúc mừng chú rể đã rước được nàng về dinh! Chúc hai bạn trăm năm hoà hợp, bách niên giai lão!',
-      created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
+   {
+      "id": "wish-1",
+      "sender": "Thu nè",
+      "relationship": "Bạn thân",
+      "message": "Phải thật hạnh phúc nhé",
+      "createdAt": "2026-11-17T10:30:00.000Z"
     },
   ]
 

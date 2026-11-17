@@ -38,12 +38,11 @@
         <!-- Song info -->
         <div class="max-w-[170px] md:max-w-[210px] text-left leading-tight overflow-hidden">
           <div class="text-[11px] font-medium text-[#51463F] truncate">
-            {{ currentTrack?.title || 'Nhạc Đám Cưới 2026' }}
+            {{ currentTrack?.title || 'Váy Cưới' }}
           </div>
           <div class="text-[9.5px] text-[#51463F]/60 truncate flex items-center gap-1">
             <span class="inline-block w-1.5 h-1.5 rounded-full" :class="isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'"></span>
-            <span>{{ currentTrack?.artist || 'Ballad Lãng Mạn' }}</span>
-            <span v-if="isCurrentYouTube" class="text-[8px] px-1 py-0.2 rounded bg-[#B9827A]/15 text-[#B9827A] font-semibold tracking-wider">YT</span>
+            <span>{{ currentTrack?.artist || 'Kai Đinh - ERIK' }}</span>
           </div>
         </div>
 
