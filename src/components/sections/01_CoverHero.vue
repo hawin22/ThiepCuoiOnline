@@ -1,5 +1,5 @@
 <template>
-  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <section class="hero-cover relative min-h-screen flex items-center justify-center overflow-hidden">
     <!-- Background image -->
     <div class="absolute inset-0 z-0">
       <img
@@ -14,10 +14,10 @@
     </div>
 
     <!-- Content -->
-    <div class="relative z-10 text-center px-4 sm:px-6 py-16 sm:py-20" ref="el">
+    <div class="hero-content relative z-10 text-center px-4 sm:px-6 py-16 sm:py-20" ref="el">
       <!-- Badge -->
       <div
-        class="inline-flex items-center gap-2 border border-champ-light/60 rounded-full px-3.5 sm:px-4 py-1 sm:py-1.5 mb-8 sm:mb-10 backdrop-blur-sm bg-white/10 transition-all duration-700"
+        class="hero-badge inline-flex items-center gap-2 border border-champ-light/60 rounded-full px-3.5 sm:px-4 py-1 sm:py-1.5 mb-8 sm:mb-10 backdrop-blur-sm bg-white/10 transition-all duration-700"
         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
       >
         <span class="w-1.5 h-1.5 rounded-full bg-champ animate-pulse"></span>
@@ -40,7 +40,7 @@
 
       <!-- Ornament divider -->
       <div
-        class="flex items-center justify-center gap-3 sm:gap-4 my-8 sm:my-10 transition-all duration-700"
+        class="hero-divider flex items-center justify-center gap-3 sm:gap-4 my-8 sm:my-10 transition-all duration-700"
         :class="isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'"
         :style="{ transitionDelay: '550ms' }"
       >
@@ -51,7 +51,7 @@
 
       <!-- Monogram P & K -->
       <div
-        class="transition-all duration-700"
+        class="hero-monogram transition-all duration-700"
         :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'"
         :style="{ transitionDelay: '750ms' }"
       >
@@ -60,14 +60,53 @@
     </div>
 
     <!-- Scroll indicator -->
-    <div class="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-white/60 animate-bounce">
+    <div class="hero-scroll absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-white/60">
       <!-- <span class="font-sans text-[9px] sm:text-[10px] tracking-widest uppercase">Cuộn xuống</span> -->
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
       </svg>
     </div>
   </section>
 </template>
+
+<style scoped>
+@media (max-width: 767px) and (orientation: portrait) {
+  .hero-content {
+    position: static;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 8vh;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .hero-divider,
+  .hero-monogram,
+  .hero-scroll {
+    position: absolute;
+    left: 50%;
+    right: auto;
+    translate: -50% 0;
+  }
+
+  .hero-divider {
+    bottom: 18vh;
+    margin: 0;
+  }
+
+  .hero-monogram {
+    bottom: 10vh;
+  }
+
+  .hero-scroll {
+    bottom: 3vh;
+  }
+}
+</style>
 
 <script setup>
 import { ref } from 'vue'
