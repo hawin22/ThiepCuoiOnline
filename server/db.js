@@ -62,7 +62,13 @@ if (countWishes.count === 0) {
 
   const insertMany = db.transaction((wishes) => {
     for (const w of wishes) {
-      insertWish.run(w.id, w.sender, w.relationship, w.message, w.created_at)
+      insertWish.run(
+        w.id,
+        w.sender,
+        w.relationship || '',
+        w.message,
+        w.createdAt || w.created_at || new Date().toISOString()
+      )
     }
   })
   insertMany(initialWishes)
