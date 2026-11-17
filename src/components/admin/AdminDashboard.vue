@@ -385,6 +385,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { toCsv } from '@/utils/csv.js'
 
 const ADMIN_TOKEN_KEY = 'wedding_admin_token'
 const TOKEN_VALUE = 'wedding-admin-session-tk-2026'
@@ -669,12 +670,6 @@ function formatDate(iso) {
   return new Date(iso).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
-function toCsv(rows, cols) {
-  const header = cols.map(c => c.label).join(',')
-  const body = rows.map(r => cols.map(c => `"${String(r[c.key] ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')
-  return `${header}\n${body}`
-}
-
 function downloadCsv(content, filename) {
   const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
@@ -709,7 +704,7 @@ function exportRsvpCsv() {
   downloadCsv(toCsv(mapped, [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Tên' },
-    { key: 'phone', label: 'Điện thoại' },
+    { key: 'phone', label: 'Điện thoại', type: 'text' },
     { key: 'attendingLabel', label: 'Tham dự' },
     { key: 'guestCount', label: 'Số khách' },
     { key: 'note', label: 'Ghi chú' },
